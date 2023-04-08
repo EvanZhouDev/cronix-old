@@ -1,0 +1,57 @@
+.footer {
+	/* background: var(--darker-bg-color); */
+	height: 7.5vh;
+    width: 90vw;
+    display: flex;
+}
+
+.links {
+    flex: 1;
+    display: flex;
+}
+
+.name {
+    padding-left: 5px;
+    font-size: 20px;
+}
+
+.URL {
+    text-decoration: none;
+    color: var(--font-color-dull);
+    padding-left: 15px;
+    padding-right: 15px;
+    width: auto;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s;
+}
+
+.version {
+    flex: 1;
+    color: var(--font-color-dull);
+    padding-left: 15px;
+    padding-right: 15px;
+    width: auto;
+	display: flex;
+    justify-content: end;
+    align-items: center;
+    transition: all 0.1s;
+}
+
+.URL:hover {
+    color: var(--font-color);
+}
+
+.URL:active {
+    color: var(--font-color-dull);
+}
+
+.logo {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,39 @@
+.titlebar {
+	height: 7.5vh;
+    width: 90vw;
+    display: flex;
+}
+
+.name {
+    padding-left: 5px;
+    font-size: 20px;
+}
+
+.option {
+    text-decoration: none;
+    color: var(--font-color-dull);
+    padding-left: 15px;
+    padding-right: 15px;
+    width: auto;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.1s;
+}
+
+.option:hover {
+    color: var(--font-color);
+}
+
+.option:active {
+    color: var(--font-color-dull);
+}
+
+.logo {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
