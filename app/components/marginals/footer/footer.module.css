@@ -1,0 +1,13 @@
+.links {
+    flex: 1;
+    display: flex;
+}
+
+.logo {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

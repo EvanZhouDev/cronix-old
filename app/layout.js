@@ -1,8 +1,8 @@
 import './globals.css'
 import { Fira_Code } from 'next/font/google'
 
-import Titlebar from './components/titlebar'
-import Footer from './components/footer'
+import Titlebar from './components/marginals/titlebar'
+import Footer from './components/marginals/footer'
 
 const firacode = Fira_Code({
   weight: ['400', '500', '700'],
