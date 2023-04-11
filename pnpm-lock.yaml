@@ -7,6 +7,7 @@ specifiers:
   react: 18.2.0
   react-dom: 18.2.0
   react-icons: ^4.8.0
+  scrambo: ^0.3.0
 
 dependencies:
   eslint: 8.38.0
@@ -15,6 +16,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.8.0_react@18.2.0
+  scrambo: 0.3.0
 
 packages:
 
@@ -460,6 +462,10 @@ packages:
 
   /color-name/1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+    dev: false
+
+  /commander/2.20.3:
+    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
     dev: false
 
   /concat-map/0.0.1:
@@ -1820,6 +1826,13 @@ packages:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
     dependencies:
       loose-envify: 1.4.0
+    dev: false
+
+  /scrambo/0.3.0:
+    resolution: {integrity: sha512-Lap6PiQX6k/zg8NSmJwPOD/oFpLsxbTFk6DSI1J0iJQKLFYiKFmlY6oc/kqP0ltzKoTqP5ZV0+DkpBVHwhyiqQ==}
+    hasBin: true
+    dependencies:
+      commander: 2.20.3
     dev: false
 
   /semver/6.3.0:
