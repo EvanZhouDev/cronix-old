@@ -1,8 +1,9 @@
 import styles from "./bar.module.css"
 
-export default ({ name, icon, selected }) => {
+export default function Toggle({ name, selected, icon, onClick }) {
+    // console.log(cur, name, cur === name, cur === name ? [styles.toggle, styles.selected].join(" ") : "")
     return (
-        <span className={[styles.toggle, selected ? styles.selected : ""].join(" ")}>
+        <span className={selected ? [styles.toggle, styles.selected].join(" ") : styles.toggle} onClick={onClick}>
             {icon}
             <span className={styles.name}>{name}</span>
         </span>

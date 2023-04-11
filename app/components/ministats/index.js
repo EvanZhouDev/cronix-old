@@ -1,5 +1,5 @@
 import styles from "./ministats.module.css"
-export default () => {
+export default function Ministats() {
     return (
         <div>
             <span className={styles.stats}>mo3: 10.23</span>

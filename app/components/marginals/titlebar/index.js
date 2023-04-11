@@ -3,7 +3,7 @@ import Logo from "./logo.js"
 import Marginal from "../index.js"
 import styles from "./titlebar.module.css"
 import { FiClock, FiHelpCircle, FiBarChart2 } from "react-icons/fi";
-export default () => {
+export default function Titlebar() {
     return (
         <Marginal>
             <Logo/>

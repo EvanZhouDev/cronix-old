@@ -1,5 +1,5 @@
 import styles from "./marginals.module.css"
-export default ({ children }) => {
+export default function Marginals({ children }) {
     return (
         <div className={styles.marginal}>
             {children}
