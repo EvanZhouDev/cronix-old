@@ -52,6 +52,14 @@ export default function Bar() {
     ));
 
     useEffect(() => {
+        if (window.localStorage.getItem("timerOptions") === undefined) {
+            window.localStorage.setItem("timerOptions", JSON.stringify(
+                {
+                    event: null,
+                    input: null
+                }
+            ));
+        }
         setTimerOptions(JSON.parse(window.localStorage.getItem('timerOptions')));
     }, []);
 
@@ -64,6 +72,7 @@ export default function Bar() {
         cur[key] = name;
         setTimerOptions(JSON.stringify(cur))
     }
+
     return (
         <div className={styles.bar}>
             {

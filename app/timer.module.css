@@ -7,10 +7,6 @@
     flex-direction: column;
 }
 
-.time {
-    font-size: 125px;
-    font-weight: 500;
-}
 
 .vsection {
     flex: 1;

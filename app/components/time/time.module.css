@@ -1,0 +1,17 @@
+
+.time {
+    font-size: 125px;
+    font-weight: 500;
+}
+
+.idle {
+    color: var(--font-color);
+}
+
+.unready {
+    color: var(--error-color);
+}
+
+.ready {
+    color: var(--highlight-color);
+}
