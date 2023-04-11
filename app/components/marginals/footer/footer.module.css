@@ -1,6 +1,19 @@
+
 .links {
     flex: 1;
     display: flex;
+}
+
+.version {
+    flex: 1;
+    color: var(--font-color-dull);
+    padding-left: 15px;
+    padding-right: 15px;
+    width: auto;
+	display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: all 0.1s;
 }
 
 .logo {

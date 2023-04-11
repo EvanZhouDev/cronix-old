@@ -1,24 +1,48 @@
 .status {
-    font-size: 20px;
-    color: var(--font-color-dull);
+	font-size: 20px;
+	color: var(--font-color-dull);
+	display: flex;
+	flex-direction: row;
 }
 .selection {
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
-    background-color: var(--darker-bg-color);
-    border-radius: 100vw;
-    transition: all 0.1s;
+    cursor: pointer;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
+	background-color: var(--darker-bg-color);
+	border-radius: 100vw;
+	transition: all 0.1s;
+}
+.delete {
+    cursor: pointer;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
+	border-radius: 100vw;
+	transition: all 0.1s;
+	display: flex;
+	align-items: center;
+}
+
+.delete * {
+	padding-right: 5px;
+}
+.delete:hover {
+	color: var(--error-color);
+}
+.delete:active {
+	color: var(--font-color-dull);
 }
 
 .selection:hover {
-    color: var(--font-color);
+	color: var(--font-color);
 }
 .selection:active {
-    color: var(--font-color-dull);
+	color: var(--font-color-dull);
 }
 
 .selected {
-    color: var(--highlight-color);
+	color: var(--highlight-color);
 }

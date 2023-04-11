@@ -10,6 +10,7 @@
 }
 
 .selection {
+	cursor: pointer;
 	padding-left: 5px;
 	padding-right: 5px;
 	display: flex;
@@ -18,21 +19,30 @@
 }
 
 .selected {
-    color: var(--highlight-color);
+	color: var(--highlight-color);
 }
 
 .toggle {
 	padding-left: 10px;
 	padding-right: 10px;
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
+	transition: all 0.1s;
+}
+
+.toggle:hover {
+	color: var(--font-color);
+}
+
+.toggle:active {
+	color: var(--font-color-dull);
 }
 
 .divider {
 	font-weight: 700;
-    color: var(--bg-color)
+	color: var(--bg-color);
 }
 
 .name {
-    padding-left: 5px;
+	padding-left: 5px;
 }
