@@ -7,6 +7,8 @@ import Selection from "./selection.js"
 import Toggle from "./toggle.js"
 import Divider from "./divider.js"
 import { FiBox, FiWatch, FiMic, FiMoreVertical } from "react-icons/fi";
+import useLocalStorage from "../src/useLocalStorage.js";
+import Dropdown from "./dropdown.js"
 
 export default function Bar() {
     let settings = [{
@@ -22,7 +24,33 @@ export default function Bar() {
             },
             {
                 name: "More",
-                icon: <FiMoreVertical size={15} />
+                icon: <FiMoreVertical size={15} />,
+                submenu: [
+                    {
+                        name: "2x2",
+                        icon: <FiBox size={15} />
+                    },
+                    {
+                        name: "3x3",
+                        icon: <FiBox size={15} />
+                    },
+                    {
+                        name: "4x4",
+                        icon: <FiBox size={15} />
+                    },
+                    {
+                        name: "5x5",
+                        icon: <FiBox size={15} />
+                    },
+                    {
+                        name: "6x6",
+                        icon: <FiBox size={15} />
+                    },
+                    {
+                        name: "7x7",
+                        icon: <FiBox size={15} />
+                    },
+                ]
             },
         ]
     },
@@ -44,28 +72,35 @@ export default function Bar() {
     // // let [event, setEvent] = useLocalStorage("event", "3x3")
     // console.log(event)
     // let [input, setInput] = useLocalStorage("input", "Timer")
-    const [timerOptions, setTimerOptions] = useState(JSON.stringify(
-        {
-            event: null,
-            input: null
-        }
-    ));
+    // const [timerOptions, setTimerOptions] = useState(JSON.stringify(
+    //     {
+    //         event: null,
+    //         input: null
+    //     }
+    // ));
 
-    useEffect(() => {
-        if (window.localStorage.getItem("timerOptions") === undefined) {
-            window.localStorage.setItem("timerOptions", JSON.stringify(
-                {
-                    event: null,
-                    input: null
-                }
-            ));
-        }
-        setTimerOptions(JSON.parse(window.localStorage.getItem('timerOptions')));
-    }, []);
+    // useEffect(() => {
+    //     if (window.localStorage.getItem("timerOptions") === undefined) {
+    //         window.localStorage.setItem("timerOptions", JSON.stringify(
+    //             {
+    //                 event: "3x3",
+    //                 input: "Timer"
+    //             }
+    //         ));
+    //     }
+    //     setTimerOptions(JSON.parse(window.localStorage.getItem('timerOptions')));
+    // }, []);
 
-    useEffect(() => {
-        window.localStorage.setItem('timerOptions', JSON.stringify(timerOptions));
-    }, [timerOptions]);
+    // useEffect(() => {
+    //     window.localStorage.setItem('timerOptions', JSON.stringify(timerOptions));
+    // }, [timerOptions]);
+    const [timerOptions, setTimerOptions] = useLocalStorage(
+        'timerOptions',
+        JSON.stringify({
+            event: "3x3",
+            input: "Timer"
+        })
+    );
 
     let checkNew = (key, name) => {
         let cur = JSON.parse(timerOptions);
@@ -91,6 +126,9 @@ export default function Bar() {
                         {i !== settings.length - 1 ? <Divider /> : null}
                     </React.Fragment>))
             }
+            <Selection>
+                <Dropdown icon={<FiBox />} name="test" data={settings[0].types[2].submenu} />
+            </Selection>
         </div>
     )
 }

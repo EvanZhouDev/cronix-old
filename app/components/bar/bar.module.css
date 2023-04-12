@@ -46,3 +46,18 @@
 .name {
 	padding-left: 5px;
 }
+
+.dropdown {
+	position: absolute;
+	opacity: 0;
+	background: var(--darker-bg-color);
+	border-radius: 10px;
+	padding: 10px;
+	padding-left: 2.5px;
+	display: none;
+	transition: all 0.25s;
+}
+.dropdownParent:hover .dropdown {
+	display: block;
+	opacity: 1;
+}
