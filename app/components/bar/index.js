@@ -117,8 +117,10 @@ export default function Bar() {
                         <Selection>
                             {
                                 types.map(toggle => {
+
                                     return (
-                                        <Toggle selected={toggle.name === JSON.parse(timerOptions)[name]} key={toggle.name} name={toggle.name} icon={toggle.icon} onClick={() => checkNew(name, toggle.name)} />
+                                        !toggle.submenu ?
+                                            <Toggle selected={toggle.name === JSON.parse(timerOptions)[name]} key={toggle.name} name={toggle.name} icon={toggle.icon} onClick={() => checkNew(name, toggle.name)} /> : <Dropdown selected={JSON.parse(timerOptions)[name]} name={toggle.name} data={toggle.submenu} icon={toggle.icon} dictkey={name} fn={checkNew} />
                                     )
                                 })
                             }
@@ -126,9 +128,9 @@ export default function Bar() {
                         {i !== settings.length - 1 ? <Divider /> : null}
                     </React.Fragment>))
             }
-            <Selection>
+            {/* <Selection>
                 <Dropdown icon={<FiBox />} name="test" data={settings[0].types[2].submenu} />
-            </Selection>
+            </Selection> */}
         </div>
     )
 }

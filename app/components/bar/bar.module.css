@@ -48,6 +48,7 @@
 }
 
 .dropdown {
+	margin-left: 10px;
 	position: absolute;
 	opacity: 0;
 	background: var(--darker-bg-color);
