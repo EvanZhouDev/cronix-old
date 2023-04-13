@@ -1,6 +1,5 @@
 import accurateInterval from "./accurateInterval";
 import { useState, useEffect } from "react"
-import Scrambo from "scrambo"
 import { randomScrambleForEvent } from "cubing/scramble";
 import { setDebug } from "cubing/search";
 
