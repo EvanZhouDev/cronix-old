@@ -102,11 +102,11 @@ export default function Page() {
     useEffect(() => {
         setSettings(oldSettings => {
             let cur = timerOptions;
-            // setTimerOptions(JSON.stringify(cur))
-            if (cur.event !== "3x3" && cur.event !== oldSettings[0].types[1]) {
-                oldSettings[0].types[1] = oldSettings[0].types[2].submenu.find(item => item.name === cur.event);
+            let updatedSettings = [...oldSettings]; // Create a copy of the settings array
+            if (cur.event !== "3x3" && cur.event !== oldSettings[0].types[1].name) {
+                updatedSettings[0].types[1] = oldSettings[0].types[1].submenu.find(item => item.name === cur.event);
             }
-            return oldSettings;
+            return updatedSettings;
         })
     }, [timerOptions])
 
@@ -124,8 +124,12 @@ export default function Page() {
         "Clock": "clock",
     }
 
+    let [timeList, setTimeList] = useLocalStorage("timeList", {
+        "Session 1": []
+    })
+
     let penalty = useState("OK")
-    let [timeStatus, time, scramble] = useTimer(eventMap[timerOptions.event], penalty[1]);
+    let [timeStatus, time, scramble] = useTimer(eventMap[timerOptions.event], penalty[1], timeList, setTimeList);
 
     let handleDelete = () => {
         // Delete time here
@@ -142,7 +146,7 @@ export default function Page() {
                 {timeStatus === "judging" ? <Status handleDelete={handleDelete} penalty={penalty} /> : null}
             </div>
             <div className={styles.vsection}>
-                {timeStatus !== "timing" ? <Ministats /> : null}
+                {timeStatus !== "timing" ? <Ministats timeListStatus={[timeList, setTimeList]} /> : null}
             </div>
         </div>
     )

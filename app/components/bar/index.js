@@ -23,7 +23,7 @@ export default function Bar({ settings: [settings, setSettings], timerOptions: [
     return (
         <div className={styles.bar}>
             {
-
+                
                 settings.map(({ name, types }, i) => (
                     <React.Fragment key={i}>
                         <Selection>

@@ -45,7 +45,7 @@
 // }
 
 
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 export default function useLocalStorage(key, defaultValue) {
     const isMounted = useRef(false);
@@ -67,6 +67,7 @@ export default function useLocalStorage(key, defaultValue) {
 
     useEffect(() => {
         if (isMounted.current) {
+            console.log("updated to", value)
             window.localStorage.setItem(key, JSON.stringify(value));
         } else {
             isMounted.current = true;

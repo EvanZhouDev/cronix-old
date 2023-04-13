@@ -6,7 +6,7 @@ import useLocalStorage from "./useLocalStorage";
 import { v4 as uuidv4 } from 'uuid';
 // All the guts behind the timer!
 
-export default function useTimer(type, setPenalty) {
+export default function useTimer(type, setPenalty, timeList, setTimeList) {
     // You can specify any subset of debug options.
     setDebug({
         logPerf: false, // Disable console info like scramble generation durations.
@@ -24,9 +24,6 @@ export default function useTimer(type, setPenalty) {
     let [time, setTime] = useState(0)
     let [scramble, setScramble] = useState("Getting scramble. For 3x3+, this may take some time.")
     let [session, setSession] = useLocalStorage("session", "Session 1", "Session 1")
-    let [timeList, setTimeList] = useLocalStorage("timeList", {
-        "Session 1": []
-    })
 
     const awaitTimerStartDown = (e) => {
         if (e.key === " " && !spaceHeldInterval) {
@@ -66,16 +63,12 @@ export default function useTimer(type, setPenalty) {
     const awaitTimerEndDown = (e) => {
         let UUID = uuidv4();
         setTime((prevTime) => {
-            setTimeList(prevList => {
-                let parsedList = { ...prevList }
-                if (!parsedList[session].length || UUID !== parsedList[session][parsedList[session].length - 1].uuid) {
-                    parsedList[session].push({
-                        time: prevTime,
-                        uuid: UUID
-                    });
-                }
-                return parsedList;
-            })
+            let parsedList = JSON.parse(JSON.stringify(timeList));
+            parsedList[session].push({
+                time: prevTime,
+                uuid: UUID
+            });
+            setTimeList(parsedList);
             return prevTime;
         });
         if (timerInterval) timerInterval.cancel();
