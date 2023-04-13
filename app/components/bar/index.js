@@ -6,7 +6,6 @@ import Selection from "./selection.js"
 import Toggle from "./toggle.js"
 import Divider from "./divider.js"
 import Dropdown from "./dropdown.js"
-
 export default function Bar({ settings: [settings, setSettings], timerOptions: [timerOptions, setTimerOptions] }) {
     let modify = (key, name) => {
         setSettings(oldSettings => {
@@ -20,6 +19,7 @@ export default function Bar({ settings: [settings, setSettings], timerOptions: [
             return oldSettings;
         })
     }
+
     return (
         <div className={styles.bar}>
             {

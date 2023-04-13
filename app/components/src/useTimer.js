@@ -26,8 +26,6 @@ export default function useTimer(type, setPenalty) {
     let [session, setSession] = useLocalStorage("session", "Session 1", "Session 1")
     let [timeList, setTimeList] = useLocalStorage("timeList", {
         "Session 1": []
-    }, {
-        "Session 1": []
     })
 
     const awaitTimerStartDown = (e) => {
@@ -69,7 +67,7 @@ export default function useTimer(type, setPenalty) {
         let UUID = uuidv4();
         setTime((prevTime) => {
             setTimeList(prevList => {
-                let parsedList = prevList
+                let parsedList = { ...prevList }
                 if (!parsedList[session].length || UUID !== parsedList[session][parsedList[session].length - 1].uuid) {
                     parsedList[session].push({
                         time: prevTime,
