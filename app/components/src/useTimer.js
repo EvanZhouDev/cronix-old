@@ -41,7 +41,6 @@ export default function useTimer(type, setPenalty) {
 
     const awaitTimerStartUp = (e) => {
         if (e.key === " ") {
-            console.log("AHH")
             if (spaceHeldTime >= startThreshold) {
                 setTimeStatus("timing");
                 document.removeEventListener('keydown', awaitTimerStartDown);

@@ -123,6 +123,10 @@ export default function Page() {
     let penalty = useState("OK")
     let [timeStatus, time, scramble] = useTimer(eventMap[JSON.parse(timerOptions).event], penalty[1]);
 
+    let handleDelete = () => {
+        // Delete time here
+    }
+
     return (
         <div className={styles.timerPage}>
             <div className={styles.vsection}>
@@ -131,7 +135,7 @@ export default function Page() {
             <div className={styles.vsection}>
                 {timeStatus !== "timing" ? <Scramble scramble={scramble} /> : null}
                 <Time time={time} penalty={penalty[0]} status={timeStatus} />
-                {timeStatus === "judging" ? <Status penalty={penalty} /> : null}
+                {timeStatus === "judging" ? <Status handleDelete={handleDelete} penalty={penalty} /> : null}
             </div>
             <div className={styles.vsection}>
                 {timeStatus !== "timing" ? <Ministats /> : null}
