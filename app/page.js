@@ -119,7 +119,7 @@ export default function Page() {
         "Megaminx": "minx",
         "Clock": "clock",
     }
-    let [timeStatus, time, scramble] = handleTimer(eventMap[JSON.parse(timerOptions).event]);
+    let [timeStatus, time, scramble] = handleTimer(eventMap[JSON.parse(timerOptions).event], useState("idle"), useState(0), useState("Getting scramble. For 3x3+, this may take some time."));
     // TODO: REFRESH SCRAMBLE ON CHANGE
 
     return (

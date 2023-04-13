@@ -1,4 +1,4 @@
-export default (fn, time) => {
+export default function accurateInterval (fn, time) {
     var cancel, nextAt, timeout, wrapper, _ref;
     nextAt = new Date().getTime() + time;
     timeout = null;

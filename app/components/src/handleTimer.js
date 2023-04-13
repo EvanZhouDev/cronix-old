@@ -5,7 +5,7 @@ import { setDebug } from "cubing/search";
 
 // All the guts behind the timer!
 
-export default function handleTimer(type) {
+export default function handleTimer(type, timeStatusState, timeState, scrambleState) {
     // You can specify any subset of debug options.
     setDebug({
         logPerf: false, // Disable console info like scramble generation durations.
@@ -19,9 +19,9 @@ export default function handleTimer(type) {
     let spaceHeldInterval; // Interval for spaceHeldTime
     let timerInterval; // Interval to keep track of time
 
-    let [timeStatus, setTimeStatus] = useState("idle");
-    let [time, setTime] = useState(0)
-    let [scramble, setScramble] = useState("Getting scramble. For 3x3+, this may take some time.")
+    let [timeStatus, setTimeStatus] = timeStatusState
+    let [time, setTime] = timeState
+    let [scramble, setScramble] = scrambleState
 
     const awaitTimerStartDown = (e) => {
         if (e.key === " " && !spaceHeldInterval) {
