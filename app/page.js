@@ -12,10 +12,10 @@ import useLocalStorage from "./components/src/useLocalStorage.js";
 export default function Page() {
     const [timerOptions, setTimerOptions] = useLocalStorage(
         'timerOptions',
-        JSON.stringify({
+        {
             event: "3x3",
             input: "Timer"
-        })
+        }
     );
 
     let [settings, setSettings] = useState([{
@@ -97,8 +97,8 @@ export default function Page() {
 
     useEffect(() => {
         setSettings(oldSettings => {
-            let cur = JSON.parse(timerOptions);
-            setTimerOptions(JSON.stringify(cur))
+            let cur = timerOptions;
+            // setTimerOptions(JSON.stringify(cur))
             if (cur.event !== "3x3" && cur.event !== oldSettings[0].types[1]) {
                 oldSettings[0].types[1] = oldSettings[0].types[2].submenu.find(item => item.name === cur.event);
             }
@@ -121,7 +121,7 @@ export default function Page() {
     }
 
     let penalty = useState("OK")
-    let [timeStatus, time, scramble] = useTimer(eventMap[JSON.parse(timerOptions).event], penalty[1]);
+    let [timeStatus, time, scramble] = useTimer(eventMap[timerOptions.event], penalty[1]);
 
     let handleDelete = () => {
         // Delete time here

@@ -10,10 +10,9 @@ import Dropdown from "./dropdown.js"
 export default function Bar({ settings: [settings, setSettings], timerOptions: [timerOptions, setTimerOptions] }) {
     let modify = (key, name) => {
         setSettings(oldSettings => {
-            let cur = JSON.parse(timerOptions);
+            let cur = JSON.parse(JSON.stringify(timerOptions));
             cur[key] = name;
-
-            setTimerOptions(JSON.stringify(cur))
+            setTimerOptions(cur)
             if (cur.event !== "3x3" && cur.event !== oldSettings[0].types[1]) {
                 oldSettings[0].types[1] = oldSettings[0].types[2].submenu.find(item => item.name === cur.event);
             }
@@ -21,7 +20,6 @@ export default function Bar({ settings: [settings, setSettings], timerOptions: [
             return oldSettings;
         })
     }
-
     return (
         <div className={styles.bar}>
             {
@@ -31,10 +29,9 @@ export default function Bar({ settings: [settings, setSettings], timerOptions: [
                         <Selection>
                             {
                                 types.map(toggle => {
-
                                     return (
                                         !toggle.submenu ?
-                                            <Toggle selected={toggle.name === JSON.parse(timerOptions)[name]} key={toggle.name} name={toggle.name} icon={toggle.icon} onClick={() => modify(name, toggle.name)} /> : <Dropdown key={toggle.name} selected={JSON.parse(timerOptions)[name]} name={toggle.name} data={toggle.submenu} icon={toggle.icon} dictkey={name} fn={modify} />
+                                            <Toggle selected={toggle.name === timerOptions[name]} key={toggle.name} name={toggle.name} icon={toggle.icon} onClick={() => modify(name, toggle.name)} /> : <Dropdown key={toggle.name} selected={timerOptions[name]} name={toggle.name} data={toggle.submenu} icon={toggle.icon} dictkey={name} fn={modify} />
                                     )
                                 })
                             }

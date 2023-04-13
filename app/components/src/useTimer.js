@@ -23,9 +23,10 @@ export default function useTimer(type, setPenalty) {
     let [timeStatus, setTimeStatus] = useState("idle")
     let [time, setTime] = useState(0)
     let [scramble, setScramble] = useState("Getting scramble. For 3x3+, this may take some time.")
-    let [timeList, setTimeList] = useLocalStorage("timeList", JSON.stringify({
-        "session1": []
-    }))
+    let [session, setSession] = useLocalStorage("session", "Session 1")
+    let [timeList, setTimeList] = useLocalStorage("timeList", {
+        "Session 1": []
+    })
 
     const awaitTimerStartDown = (e) => {
         if (e.key === " " && !spaceHeldInterval) {
@@ -66,14 +67,14 @@ export default function useTimer(type, setPenalty) {
         let UUID = uuidv4();
         setTime((prevTime) => {
             setTimeList(prevList => {
-                let parsedList = JSON.parse(prevList)
-                if (!parsedList.session1.length || UUID !== parsedList.session1[parsedList.session1.length - 1].uuid) {
-                    parsedList.session1.push({
+                let parsedList = prevList
+                if (!parsedList[session].length || UUID !== parsedList[session][parsedList[session].length - 1].uuid) {
+                    parsedList[session].push({
                         time: prevTime,
                         uuid: UUID
                     });
                 }
-                return JSON.stringify(parsedList);
+                return parsedList;
             })
             return prevTime;
         });
