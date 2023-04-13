@@ -1,13 +1,15 @@
+import { useState, useEffect } from "react"
 import styles from "./ministats.module.css"
 import useLocalStorage from "../src/useLocalStorage"
 import formatTime from "../src/formatTime.js"
 export default function Ministats() {
     let [timeList, setTimeList] = useLocalStorage("timeList", {
         "Session 1": []
-    },{
+    }, {
         "Session 1": []
     })
-    let [session, setSession] = useLocalStorage("session", "Session 1")
+    let [session, setSession] = useLocalStorage("session", "Session 1", "Session 1")
+
     let calcAvg = (list, type, amount) => {
         if (list.length < amount) return "..."
         // extract last `amount` amount from list
@@ -32,12 +34,27 @@ export default function Ministats() {
             return formatTime(Math.round(rem.reduce((a, b) => a + b, 0) / rem.length))
         }
     }
+
+    let [avg, setAvg] = useState({
+        mo3: "...",
+        ao5: "...",
+        ao12: "...",
+    })
+    useEffect(() => {
+        setAvg(original => {
+            original.mo3 = calcAvg(timeList[session], "mo", 3)
+            original.ao5 = calcAvg(timeList[session], "ao", 5)
+            original.ao12 = calcAvg(timeList[session], "ao", 12)
+            return original
+        })
+    }, [])
+
     return (
         <div>
             {/* use styles.pb for PB colors! */}
-            <span className={styles.stats}>mo3: {calcAvg(timeList[session], "mo", 3)}</span>
-            <span className={[styles.stats].join(" ")}>ao5: {calcAvg(timeList[session], "ao", 5)}</span>
-            <span className={styles.stats}>ao12: {calcAvg(timeList[session], "ao", 12)}</span>
+            <span className={styles.stats}>mo3: {avg.mo3}</span>
+            <span className={[styles.stats].join(" ")}>ao5: {avg.ao5}</span>
+            <span className={styles.stats}>ao12: {avg.ao12}</span>
         </div>
     )
 }

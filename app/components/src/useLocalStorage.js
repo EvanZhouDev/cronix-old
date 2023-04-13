@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 
 export default function useLocalStorage(key, initialValue, empty) {
+    if (!empty) console.error("Please assign an fallback value.")
     // State to store our value
     // Pass initial state function to useState so logic is only executed once
     const [storedValue, setStoredValue] = useState(() => {

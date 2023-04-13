@@ -23,7 +23,7 @@ export default function useTimer(type, setPenalty) {
     let [timeStatus, setTimeStatus] = useState("idle")
     let [time, setTime] = useState(0)
     let [scramble, setScramble] = useState("Getting scramble. For 3x3+, this may take some time.")
-    let [session, setSession] = useLocalStorage("session", "Session 1")
+    let [session, setSession] = useLocalStorage("session", "Session 1", "Session 1")
     let [timeList, setTimeList] = useLocalStorage("timeList", {
         "Session 1": []
     }, {
