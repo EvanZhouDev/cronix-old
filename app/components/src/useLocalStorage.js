@@ -1,12 +1,12 @@
 'use client'
 import { useState, useEffect } from 'react';
 
-export default function useLocalStorage(key, initialValue) {
+export default function useLocalStorage(key, initialValue, empty) {
     // State to store our value
     // Pass initial state function to useState so logic is only executed once
     const [storedValue, setStoredValue] = useState(() => {
         if (typeof window === "undefined") {
-            return undefined;
+            return empty;
         }
         try {
             // Get from local storage by key

@@ -15,6 +15,10 @@ export default function Page() {
         {
             event: "3x3",
             input: "Timer"
+        },
+        {
+            event: null,
+            input: null
         }
     );
 

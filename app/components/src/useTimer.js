@@ -26,6 +26,8 @@ export default function useTimer(type, setPenalty) {
     let [session, setSession] = useLocalStorage("session", "Session 1")
     let [timeList, setTimeList] = useLocalStorage("timeList", {
         "Session 1": []
+    }, {
+        "Session 1": null
     })
 
     const awaitTimerStartDown = (e) => {

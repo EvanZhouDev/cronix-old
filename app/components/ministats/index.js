@@ -4,6 +4,8 @@ import formatTime from "../src/formatTime.js"
 export default function Ministats() {
     let [timeList, setTimeList] = useLocalStorage("timeList", {
         "Session 1": []
+    },{
+        "Session 1": null
     })
     let [session, setSession] = useLocalStorage("session", "Session 1")
     let calcAvg = (list, type, amount) => {
