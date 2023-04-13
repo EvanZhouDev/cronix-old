@@ -8,8 +8,8 @@ export default function Footer() {
     return (
         <Marginal>
             <div className={styles.links}>
-                <Option icon=<FiGithub size={20} /> name="Github" href="https://github.com"/>
-                <Option icon=<FiBook size={20} /> name="License" href="https://youtube.com"/>
+                <Option icon=<FiGithub size={20} /> name="Github" href="https://github.com/EvanZhouDev/cronix" />
+                <Option icon=<FiBook size={20} /> name="License" href="https://github.com/EvanZhouDev/cronix/blob/main/LICENSE" />
             </div>
             <Version />
         </Marginal>

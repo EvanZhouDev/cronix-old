@@ -6,7 +6,7 @@ export default function Version() {
     return (
         <span className={styles.version}>
             <FiGitMerge size={20} />
-            <span className={name}>0.0.1</span>
+            <span className={name}>Pre-Alpha: SEMVAR TBA</span>
         </span>
     )
 }
