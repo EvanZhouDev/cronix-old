@@ -66,6 +66,7 @@ export default function useTimer(type, setPenalty) {
         if (timerInterval) timerInterval.cancel();
         timerInterval = undefined;
         spaceHeldTime = 0;
+        fetchScramble()
         setTimeStatus("judging");
         document.removeEventListener('keydown', awaitTimerEndDown);
         document.addEventListener('keydown', awaitTimerStartDown);
