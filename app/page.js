@@ -6,7 +6,7 @@ import Scramble from "./components/scramble"
 import Ministats from "./components/ministats"
 import Time from "./components/time"
 import { useState, useEffect } from "react"
-import useHandleTimer from "./components/src/useHandleTimer.js";
+import useTimer from "./components/src/useTimer.js";
 import { FiBox, FiWatch, FiMic, FiMoreVertical, FiEyeOff, FiPenTool, FiClock, FiStar } from "react-icons/fi";
 import useLocalStorage from "./components/src/useLocalStorage.js";
 export default function Page() {
@@ -119,8 +119,9 @@ export default function Page() {
         "Megaminx": "minx",
         "Clock": "clock",
     }
-    let [timeStatus, time, scramble] = useHandleTimer(eventMap[JSON.parse(timerOptions).event]);
-    // TODO: REFRESH SCRAMBLE ON CHANGE
+
+    let penalty = useState("OK")
+    let [timeStatus, time, scramble] = useTimer(eventMap[JSON.parse(timerOptions).event], penalty[1]);
 
     return (
         <div className={styles.timerPage}>
@@ -129,8 +130,8 @@ export default function Page() {
             </div>
             <div className={styles.vsection}>
                 {timeStatus !== "timing" ? <Scramble scramble={scramble} /> : null}
-                <Time time={time} status={timeStatus} />
-                {timeStatus !== "timing" ? <Status /> : null}
+                <Time time={time} penalty={penalty[0]} status={timeStatus} />
+                {timeStatus === "judging" ? <Status penalty={penalty} /> : null}
             </div>
             <div className={styles.vsection}>
                 {timeStatus !== "timing" ? <Ministats /> : null}

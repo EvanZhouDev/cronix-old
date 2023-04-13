@@ -2,9 +2,8 @@
 import { useState } from "react"
 import styles from "./status.module.css"
 import { FiTrash } from "react-icons/fi"
-export default function Status() {
+export default function Status({ penalty: [selected, setSelected] }) {
     let options = ["OK", "+2", "DNF"]
-    let [selected, setSelected] = useState(options[0])
     return (
         <div className={styles.status}>
             {

@@ -1,5 +1,6 @@
 import styles from "./bar.module.css";
 import Toggle from "./toggle.js"
+
 export default function Dropdown({ selected, icon, name, data, fn, dictkey }) {
     return (
         <div className={styles.dropdownParent}>

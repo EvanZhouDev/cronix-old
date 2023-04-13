@@ -5,7 +5,7 @@ import { setDebug } from "cubing/search";
 
 // All the guts behind the timer!
 
-export default function useHandleTimer(type) {
+export default function useTimer(type, setPenalty) {
     // You can specify any subset of debug options.
     setDebug({
         logPerf: false, // Disable console info like scramble generation durations.
@@ -30,20 +30,28 @@ export default function useHandleTimer(type) {
                 if (spaceHeldTime >= startThreshold) {
                     setTime(0);
                     setTimeStatus("ready");
+                    setPenalty("OK")
                 }
-                if (spaceHeldTime < startThreshold) setTimeStatus("unready");
+                if (spaceHeldTime < startThreshold) {
+                    setTimeStatus("unready")
+                };
             }, 100);
         }
     };
 
     const awaitTimerStartUp = (e) => {
         if (e.key === " ") {
+            console.log("AHH")
             if (spaceHeldTime >= startThreshold) {
                 setTimeStatus("timing");
                 document.removeEventListener('keydown', awaitTimerStartDown);
                 document.removeEventListener('keyup', awaitTimerStartUp);
             } else {
-                setTimeStatus("idle");
+                if (timeStatus === "unready" || timeStatus === "judging" || timeStatus === "timing") {
+                    setTimeStatus("judging");
+                } else {
+                    setTimeStatus("idle");
+                }
             }
             clearInterval(spaceHeldInterval);
             spaceHeldTime = 0;
@@ -52,21 +60,18 @@ export default function useHandleTimer(type) {
     };
 
     const awaitTimerEndDown = (e) => {
-        // if (e.key === " ") {
         setTime((prevTime) => {
             console.log(prevTime);
             return prevTime;
         });
-        setTimeStatus("idle");
         if (timerInterval) timerInterval.cancel();
-        setScramble(scrambler.get(1)[0]);
         timerInterval = undefined;
         spaceHeldTime = 0;
+        setTimeStatus("judging");
         document.removeEventListener('keydown', awaitTimerEndDown);
         document.addEventListener('keydown', awaitTimerStartDown);
         document.addEventListener('keyup', awaitTimerStartUp);
         spaceHeldInterval = undefined;
-        // }
     };
 
     async function fetchScramble(dry = false) {
