@@ -19,9 +19,9 @@ export default function useHandleTimer(type) {
     let spaceHeldInterval; // Interval for spaceHeldTime
     let timerInterval; // Interval to keep track of time
 
-    let [timeStatus, setTimeStatus] = timeStatusState
-    let [time, setTime] = timeState
-    let [scramble, setScramble] = scrambleState
+    let [timeStatus, setTimeStatus] = useState("idle")
+    let [time, setTime] = useState(0)
+    let [scramble, setScramble] = useState("Getting scramble. For 3x3+, this may take some time.")
 
     const awaitTimerStartDown = (e) => {
         if (e.key === " " && !spaceHeldInterval) {
