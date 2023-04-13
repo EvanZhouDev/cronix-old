@@ -1,4 +1,9 @@
+'use client'
 import styles from "./stats.module.css"
+import useLocalStorage from "../components/src/useLocalStorage"
 export default function Page() {
-    return (<div className={styles.statsPage}>Stats has not been implemented yet. Check back soon!</div>)
+    let [timeList, setTimeList] = useLocalStorage("timeList", JSON.stringify([]))
+    return (<div className={styles.statsPage}>
+        {JSON.parse(timeList).join(", ")}
+    </div>)
 }

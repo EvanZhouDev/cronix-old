@@ -2,7 +2,8 @@ import accurateInterval from "./accurateInterval";
 import { useState, useEffect } from "react"
 import { randomScrambleForEvent } from "cubing/scramble";
 import { setDebug } from "cubing/search";
-
+import useLocalStorage from "./useLocalStorage";
+import { v4 as uuidv4 } from 'uuid';
 // All the guts behind the timer!
 
 export default function useTimer(type, setPenalty) {
@@ -22,6 +23,9 @@ export default function useTimer(type, setPenalty) {
     let [timeStatus, setTimeStatus] = useState("idle")
     let [time, setTime] = useState(0)
     let [scramble, setScramble] = useState("Getting scramble. For 3x3+, this may take some time.")
+    let [timeList, setTimeList] = useLocalStorage("timeList", JSON.stringify({
+        "session1": []
+    }))
 
     const awaitTimerStartDown = (e) => {
         if (e.key === " " && !spaceHeldInterval) {
@@ -59,8 +63,18 @@ export default function useTimer(type, setPenalty) {
     };
 
     const awaitTimerEndDown = (e) => {
+        let UUID = uuidv4();
         setTime((prevTime) => {
-            console.log(prevTime);
+            setTimeList(prevList => {
+                let parsedList = JSON.parse(prevList)
+                if (!parsedList.session1.length || UUID !== parsedList.session1[parsedList.session1.length - 1].uuid) {
+                    parsedList.session1.push({
+                        time: prevTime,
+                        uuid: UUID
+                    });
+                }
+                return JSON.stringify(parsedList);
+            })
             return prevTime;
         });
         if (timerInterval) timerInterval.cancel();
@@ -72,7 +86,7 @@ export default function useTimer(type, setPenalty) {
         document.addEventListener('keydown', awaitTimerStartDown);
         document.addEventListener('keyup', awaitTimerStartUp);
         spaceHeldInterval = undefined;
-    };
+    }
 
     async function fetchScramble(dry = false) {
         if (dry) {
@@ -105,7 +119,7 @@ export default function useTimer(type, setPenalty) {
 
     useEffect(() => {
         if (timeStatus === "timing") {
-            document.addEventListener('keydown', awaitTimerEndDown);
+            document.addEventListener('keydown', awaitTimerEndDown, { once: true });
             timerInterval = accurateInterval(() => {
                 setTime(prevState => prevState + 1)
             }, 10)
