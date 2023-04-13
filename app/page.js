@@ -6,7 +6,7 @@ import Scramble from "./components/scramble"
 import Ministats from "./components/ministats"
 import Time from "./components/time"
 import { useState, useEffect } from "react"
-import handleTimer from "./components/src/handleTimer.js";
+import useHandleTimer from "./components/src/useHandleTimer.js";
 import { FiBox, FiWatch, FiMic, FiMoreVertical, FiEyeOff, FiPenTool, FiClock, FiStar } from "react-icons/fi";
 import useLocalStorage from "./components/src/useLocalStorage.js";
 export default function Page() {
@@ -119,7 +119,7 @@ export default function Page() {
         "Megaminx": "minx",
         "Clock": "clock",
     }
-    let [timeStatus, time, scramble] = handleTimer(eventMap[JSON.parse(timerOptions).event], useState("idle"), useState(0), useState("Getting scramble. For 3x3+, this may take some time."));
+    let [timeStatus, time, scramble] = useHandleTimer(eventMap[JSON.parse(timerOptions).event]);
     // TODO: REFRESH SCRAMBLE ON CHANGE
 
     return (

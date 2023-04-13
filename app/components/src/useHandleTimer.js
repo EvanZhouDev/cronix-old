@@ -5,7 +5,7 @@ import { setDebug } from "cubing/search";
 
 // All the guts behind the timer!
 
-export default function handleTimer(type, timeStatusState, timeState, scrambleState) {
+export default function useHandleTimer(type) {
     // You can specify any subset of debug options.
     setDebug({
         logPerf: false, // Disable console info like scramble generation durations.
