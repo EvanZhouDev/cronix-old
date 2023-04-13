@@ -1,4 +1,3 @@
-'use client'
 import './globals.css'
 import { Fira_Code } from 'next/font/google'
 
