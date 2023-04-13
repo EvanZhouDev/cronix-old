@@ -5,7 +5,7 @@ export default function Ministats() {
     let [timeList, setTimeList] = useLocalStorage("timeList", {
         "Session 1": []
     },{
-        "Session 1": null
+        "Session 1": []
     })
     let [session, setSession] = useLocalStorage("session", "Session 1")
     let calcAvg = (list, type, amount) => {
