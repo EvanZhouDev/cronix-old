@@ -33,7 +33,7 @@ export default function Bar({ settings: [settings, setSettings], timerOptions: [
 
                                     return (
                                         !toggle.submenu ?
-                                            <Toggle selected={toggle.name === JSON.parse(timerOptions)[name]} key={toggle.name} name={toggle.name} icon={toggle.icon} onClick={() => checkNew(name, toggle.name)} /> : <Dropdown selected={JSON.parse(timerOptions)[name]} name={toggle.name} data={toggle.submenu} icon={toggle.icon} dictkey={name} fn={checkNew} />
+                                            <Toggle selected={toggle.name === JSON.parse(timerOptions)[name]} key={toggle.name} name={toggle.name} icon={toggle.icon} onClick={() => checkNew(name, toggle.name)} /> : <Dropdown key={toggle.name} selected={JSON.parse(timerOptions)[name]} name={toggle.name} data={toggle.submenu} icon={toggle.icon} dictkey={name} fn={checkNew} />
                                     )
                                 })
                             }

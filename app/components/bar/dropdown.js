@@ -7,7 +7,7 @@ export default function Dropdown({ selected, icon, name, data, fn, dictkey }) {
             <span className={styles.dropdown}>
                 {
                     data.map(x => {
-                        return <Toggle selected={selected === x.name} onClick={() => fn(dictkey, x.name)} icon={x.icon} name={x.name} />
+                        return <Toggle key={x.name} selected={selected === x.name} onClick={() => fn(dictkey, x.name)} icon={x.icon} name={x.name} />
                     })
                 }
             </span>

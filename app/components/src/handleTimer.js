@@ -1,11 +1,18 @@
 import accurateInterval from "./accurateInterval";
 import { useState, useEffect } from "react"
 import Scrambo from "scrambo"
+import { randomScrambleForEvent } from "cubing/scramble";
+import { setDebug } from "cubing/search";
 
 // All the guts behind the timer!
 
-export default function handleTimer() {
-    var threebythree = new Scrambo(); // Defaults to 3x3
+export default function handleTimer(type) {
+    // You can specify any subset of debug options.
+    setDebug({
+        logPerf: false, // Disable console info like scramble generation durations.
+        scramblePrefetchLevel: "none", // Never prefetch scrambles.
+        forceStringWorker: true, // Workaround for bundlers that mangle worker instantiation.
+    });
 
     // How long someone must hold spacebar to start timer
     let startThreshold = 400 // (CSTimer has 0.3s)
@@ -15,7 +22,7 @@ export default function handleTimer() {
 
     let [timeStatus, setTimeStatus] = useState("idle");
     let [time, setTime] = useState(0)
-    let [scramble, setScramble] = useState("Getting scramble...")
+    let [scramble, setScramble] = useState("Getting scramble. For 3x3+, this may take some time.")
 
     const awaitTimerStartDown = (e) => {
         if (e.key === " " && !spaceHeldInterval) {
@@ -53,7 +60,7 @@ export default function handleTimer() {
         });
         setTimeStatus("idle");
         if (timerInterval) timerInterval.cancel();
-        setScramble(threebythree.get(1)[0]);
+        setScramble(scrambler.get(1)[0]);
         timerInterval = undefined;
         spaceHeldTime = 0;
         document.removeEventListener('keydown', awaitTimerEndDown);
@@ -63,10 +70,24 @@ export default function handleTimer() {
         // }
     };
 
+    async function fetchScramble(dry = false) {
+        if (dry) {
+            await randomScrambleForEvent("444");
+        } else {
+            try {
+                setScramble("Getting scramble. For 3x3+, this may take some time.");
+                const scramble = await randomScrambleForEvent(type);
+                setScramble(scramble.toString());
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
     useEffect(() => {
+        // fetchScramble(true);
         spaceHeldInterval = undefined;
         spaceHeldTime = 0
-        setScramble(threebythree.get(1)[0]);
         document.addEventListener('keydown', awaitTimerStartDown);
         document.addEventListener('keyup', awaitTimerStartUp);
 
@@ -90,6 +111,10 @@ export default function handleTimer() {
             if (timerInterval) timerInterval.cancel();
         };
     }, [timeStatus]);
+
+    useEffect(() => {
+        fetchScramble()
+    }, [type])
 
     return [timeStatus, time, scramble]
 }
