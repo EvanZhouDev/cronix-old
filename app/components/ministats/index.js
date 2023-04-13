@@ -5,12 +5,11 @@ import formatTime from "../src/formatTime.js"
 export default function Ministats() {
     let [timeList, setTimeList] = useLocalStorage("timeList", {
         "Session 1": []
-    }, {
-        "Session 1": []
     })
-    let [session, setSession] = useLocalStorage("session", "Session 1", "Session 1")
+    let [session, setSession] = useLocalStorage("session", "Session 1")
 
     let calcAvg = (list, type, amount) => {
+        console.log(list)
         if (list.length < amount) return "..."
         // extract last `amount` amount from list
         let last = list.slice(-amount);
@@ -40,12 +39,17 @@ export default function Ministats() {
         ao5: "...",
         ao12: "...",
     })
+
     useEffect(() => {
-        setAvg(original => {
-            original.mo3 = calcAvg(timeList[session], "mo", 3)
-            original.ao5 = calcAvg(timeList[session], "ao", 5)
-            original.ao12 = calcAvg(timeList[session], "ao", 12)
-            return original
+        setTimeList(ogTimeList => {
+            setAvg(original => {
+                let rem = { ...original }
+                rem.mo3 = calcAvg(ogTimeList[session], "mo", 3)
+                rem.ao5 = calcAvg(ogTimeList[session], "ao", 5)
+                rem.ao12 = calcAvg(ogTimeList[session], "ao", 12)
+                return rem
+            })
+            return ogTimeList
         })
     }, [])
 
