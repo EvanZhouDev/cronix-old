@@ -7,7 +7,6 @@ import Toggle from "./toggle.js"
 import Divider from "./divider.js"
 import Dropdown from "./dropdown.js"
 export default function Bar({ settings: [settings, setSettings], timerOptions: [timerOptions, setTimerOptions] }) {
-    console.log(settings)
     let modify = (key, name) => {
         setSettings(oldSettings => {
             let cur = JSON.parse(JSON.stringify(timerOptions));

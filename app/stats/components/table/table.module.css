@@ -1,0 +1,13 @@
+.table {
+	border-collapse: collapse;
+}
+.tableWrapper {
+	height: 70vh;
+	width: 20vw;
+	margin-right: 10px;
+    overflow-y: scroll;
+}
+.table * {
+	padding: 5px;
+	border: 1px solid var(--font-color-dull);
+}

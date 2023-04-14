@@ -1,5 +1,5 @@
 import accurateInterval from "./accurateInterval";
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { randomScrambleForEvent } from "cubing/scramble";
 import { setDebug } from "cubing/search";
 import useLocalStorage from "./useLocalStorage";
@@ -77,12 +77,17 @@ export default function useTimer(type, setPenalty, timeList, setTimeList, penalt
         let UUID = uuidv4();
         setTime((prevTime) => {
             let parsedList = JSON.parse(JSON.stringify(timeList));
+            let mathematicalTime = prevTime
+            if (penalty[0] === "DNF") mathematicalTime = -1;
+            if (penalty[0] === "+2") mathematicalTime = prevTime + 2
             parsedList[session].push({
                 time: prevTime,
                 uuid: UUID,
                 scramble: scramble === scrambleLoadMsg ? undefined : scramble,
                 penalty: penalty[0],
-                formattedTime: applyPenalty(prevTime, penalty[0])
+                formattedTime: applyPenalty(prevTime, penalty[0]),
+                mathematicalTime: mathematicalTime,
+                date: new Date()
             });
             setTimeList(parsedList);
             return prevTime;

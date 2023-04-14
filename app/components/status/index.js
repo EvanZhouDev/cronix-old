@@ -10,6 +10,10 @@ export default function Status({ penalty: [selected, setSelected], handleDelete,
             let newTimeList = structuredClone(prevTimeList)
             newTimeList[session][newTimeList[session].length - 1].penalty = x;
             newTimeList[session][newTimeList[session].length - 1].formattedTime = applyPenalty(newTimeList[session][newTimeList[session].length - 1].time, x)
+            let mathematicalTime = newTimeList[session][newTimeList[session].length - 1].time
+            if (x === "DNF") mathematicalTime = -1;
+            if (x === "+2") mathematicalTime = prevTime + 2
+            newTimeList[session][newTimeList[session].length - 1].mathematicalTime = mathematicalTime
             return newTimeList;
         })
         setSelected(x)
