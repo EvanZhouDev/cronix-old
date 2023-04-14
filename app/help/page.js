@@ -6,7 +6,7 @@ export default function Page() {
             Welcome to Cronix. If you haven&rsquo;t already, and are interested, read the &ldquo;Why Cronix?&rdquo; page in order to better understand the philosophy behind the timer, and why I built it. However, here is the quick-start guide:
             <br/>
             <h3>Timer Page:</h3>
-            <i>Starting the Timer:</i>
+            <h4>Starting the Timer:</h4>
             For Timer mode, simply hold down the spacebar, until it shows a yellow time. At this moment, you can release space, and your timer will start. In order to stop the timer, simply press any reasonable key on your keyboard, and the timer will stop.
             Stackmat mode is currently under development.
 
