@@ -1,7 +1,10 @@
 import React from "react";
 import { useTable } from "react-table"
 import styles from "./table.module.css"
-export default function Table({ data }) {
+import { FiTrash } from "react-icons/fi"
+import applyPenalty from "@/app/src/applyPenalty";
+import useLocalStorage from "@/app/src/useLocalStorage";
+export default function Table({ data, timeList, set }) {
     const columns = React.useMemo(
         () => [
             {
@@ -28,11 +31,68 @@ export default function Table({ data }) {
                 Header: 'ao12',
                 accessor: 'ao12',
             },
+            {
+                Header: 'Operations',
+                accessor: 'operations',
+            },
         ],
         []
     )
 
-    const tableInstance = useTable({ columns, data: data.map((x, i) => { x.index = i + 1; return x }).reverse() })
+    let session = "Session 1"
+    let doPenalty = (i, penalty) => {
+        set(prevTimeList => {
+            let newTimeList = structuredClone(prevTimeList)
+            newTimeList[session][i].penalty = penalty;
+            newTimeList[session][i].formattedTime = applyPenalty(newTimeList[session][i].time, penalty)
+            let mathematicalTime = newTimeList[session][i].time
+            if (penalty === "DNF") mathematicalTime = -1;
+            if (penalty === "+2") mathematicalTime = newTimeList[session][i].time + 200
+            newTimeList[session][i].mathematicalTime = mathematicalTime
+            return newTimeList;
+        })
+    }
+
+    let [_timeStatus, setTimeStatus] = useLocalStorage("timeStatus", "idle")
+    let [_time, setTime] = useLocalStorage("curTime", 0)
+    let [_penalty, setPenalty] = useLocalStorage("penalty", "OK")
+    const tableInstance = useTable({
+        columns, data: data.map((x, i) => {
+            x.index = i + 1;
+            x.operations = <span class={styles.opWrap}>
+                <span class={[styles.trash].join(" ")} onClick={() => {
+                    set(original => {
+                        let newList = structuredClone(original);
+                        newList["Session 1"].splice(i, 1)
+                        return newList;
+                    })
+                    if (i === 0) {
+                        setTime(0);
+                        setPenalty("OK");
+                        setTimeStatus("idle");
+                    }
+                }}>
+                    <FiTrash />
+                </span>
+                <span class={[styles.selection, timeList[session][i] && timeList[session][i].penalty === "OK" ? styles.selected : null].join(" ")} onClick={() => {
+                    doPenalty(i, "OK")
+                }}>
+                    OK
+                </span>
+                <span class={[styles.selection, timeList[session][i] && timeList[session][i].penalty === "+2" ? styles.selected : null].join(" ")} onClick={() => {
+                    doPenalty(i, "+2")
+                }}>
+                    +2
+                </span>
+                <span class={[styles.selection, timeList[session][i] && timeList[session][i].penalty === "DNF" ? styles.selected : null].join(" ")} onClick={() => {
+                    doPenalty(i, "DNF")
+                }}>
+                    DNF
+                </span>
+            </span>
+            return x
+        }).reverse()
+    })
     const {
         getTableProps,
         getTableBodyProps,

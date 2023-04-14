@@ -12,7 +12,7 @@ export default function Status({ penalty: [selected, setSelected], handleDelete,
             newTimeList[session][newTimeList[session].length - 1].formattedTime = applyPenalty(newTimeList[session][newTimeList[session].length - 1].time, x)
             let mathematicalTime = newTimeList[session][newTimeList[session].length - 1].time
             if (x === "DNF") mathematicalTime = -1;
-            if (x === "+2") mathematicalTime = prevTime + 2
+            if (x === "+2") mathematicalTime = newTimeList[session][newTimeList[session].length - 1].time + 200
             newTimeList[session][newTimeList[session].length - 1].mathematicalTime = mathematicalTime
             return newTimeList;
         })

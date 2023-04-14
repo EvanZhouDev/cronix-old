@@ -21,24 +21,28 @@ export default function LineChart({ rawData }) {
                     backgroundColor: "#E2B712",
                     borderColor: "#E2B712",
                     data: rawData.map(x => x.mathematicalTime === -1 ? undefined : x.mathematicalTime / 100),
+                    
                 },
                 {
                     label: "ao5",
                     backgroundColor: "#CA4754",
                     borderColor: "#CA4754",
                     data: rawData.map(x => x.mathematicalTime === -1 ? undefined : parseFloat(x.ao5)),
+                    lineTension: 0.25
                 },
                 {
                     label: "mo3",
                     backgroundColor: "#61C9A8",
                     borderColor: "#61C9A8",
                     data: rawData.map(x => x.mathematicalTime === -1 ? undefined : parseFloat(x.mo3)),
+                    lineTension: 0.25
                 },
                 {
                     label: "ao12",
                     backgroundColor: "#89D2DC",
                     borderColor: "#89D2DC",
                     data: rawData.map(x => x.mathematicalTime === -1 ? undefined : parseFloat(x.ao12)),
+                    lineTension: 0.25
                 },
             ],
         }
