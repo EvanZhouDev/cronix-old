@@ -2,7 +2,7 @@ import Option from "../option.js"
 import Version from "./version.js"
 import Marginal from "../index.js"
 import styles from "./footer.module.css"
-import { FiGithub, FiBook } from "react-icons/fi";
+import { FiGithub, FiBook,FiInfo } from "react-icons/fi";
 
 export default function Footer() {
     return (

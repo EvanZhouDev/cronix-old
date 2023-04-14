@@ -1,5 +1,5 @@
 import styles from "./time.module.css"
-import formatTime from "../src/formatTime.js"
+import formatTime from "../../src/formatTime.js"
 let applyPenalty = (time, penalty) => {
     if (penalty === "+2") return (formatTime(time + 200)) + "+"
     if (penalty === "DNF") return `DNF(${formatTime(time)})`

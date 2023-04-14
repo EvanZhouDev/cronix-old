@@ -6,9 +6,9 @@ import Scramble from "./components/scramble"
 import Ministats from "./components/ministats"
 import Time from "./components/time"
 import { useState, useEffect } from "react"
-import useTimer from "./components/src/useTimer.js";
+import useTimer from "./src/useTimer.js";
 import { FiBox, FiWatch, FiMic, FiMoreVertical, FiEyeOff, FiPenTool, FiClock, FiStar } from "react-icons/fi";
-import useLocalStorage from "./components/src/useLocalStorage.js";
+import useLocalStorage from "./src/useLocalStorage.js";
 export default function Page() {
     const [timerOptions, setTimerOptions] = useLocalStorage(
         'timerOptions',
@@ -66,6 +66,14 @@ export default function Page() {
                         icon: <FiEyeOff size={15} />
                     },
                     {
+                        name: "3x3 One-Handed",
+                        icon: <FiBox size={15} /> // add more relevant symbol
+                    },
+                    {
+                        name: "3x3 Multi-Blind",
+                        icon: <FiEyeOff size={15} />
+                    },
+                    {
                         name: "3x3 FMC",
                         icon: <FiPenTool size={15} />
                     },
@@ -80,6 +88,22 @@ export default function Page() {
                     {
                         name: "Clock",
                         icon: <FiClock size={15} />
+                    },
+                    {
+                        name: "Pyraminx",
+                        icon: <FiStar size={15} />
+                    },
+                    {
+                        name: "Skewb",
+                        icon: <FiStar size={15} />
+                    },
+                    {
+                        name: "4x4 Blind",
+                        icon: <FiEyeOff size={15} />
+                    },
+                    {
+                        name: "5x5 Blind",
+                        icon: <FiEyeOff size={15} />
                     },
                 ]
             },
@@ -104,7 +128,7 @@ export default function Page() {
             let cur = timerOptions;
             let updatedSettings = [...oldSettings]; // Create a copy of the settings array
             if (cur.event !== "3x3" && cur.event !== oldSettings[0].types[1].name) {
-                updatedSettings[0].types[1] = oldSettings[0].types[1].submenu.find(item => item.name === cur.event);
+                updatedSettings[0].types[1] = oldSettings[0].types[2].submenu.find(item => item.name === cur.event);
             }
             return updatedSettings;
         })
@@ -119,9 +143,14 @@ export default function Page() {
         "7x7": "777",
         "3x3 Blind": "333bf",
         "3x3 FMC": "333fm",
+        "3x3 One-Handed": "333oh",
         "Square-1": "sq1",
         "Megaminx": "minx",
         "Clock": "clock",
+        "Pyraminx": "pyram",
+        "Skewb": "skewb",
+        "4x4 Blind": "444bf",
+        "5x5 Blind": "555bf",
     }
 
     let [timeList, setTimeList] = useLocalStorage("timeList", {

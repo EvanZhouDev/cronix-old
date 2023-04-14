@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "./ministats.module.css";
-import formatTime from "../src/formatTime.js";
+import formatTime from "../../src/formatTime.js";
 
 export default function Ministats({ timeListStatus }) {
     const [timeList, setTimeList] = timeListStatus;
