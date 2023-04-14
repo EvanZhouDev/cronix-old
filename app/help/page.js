@@ -3,7 +3,7 @@ export default function Page() {
     return (
         <div className={styles.helpPage}>
             <h1>Cronix Help Page</h1>
-            Welcome to Cronix. If you haven&rsquo;t already, and are interested, read the &ldquo;Why Cronix?&rdquo; page in order to better understand the philosophy behind the timer, and why I built it. However, here is the quick-start guide:
+            Welcome to Cronix. If you haven&rsquo;t already, and are interested, read the &ldquo;About&rdquo; page in order to better understand the philosophy behind the timer, and why I built it. However, here is the quick-start guide:
             <br/>
             <h3>Timer Page:</h3>
             <h4>Starting the Timer:</h4>

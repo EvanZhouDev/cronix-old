@@ -18,11 +18,11 @@ export default function Page() {
         // Define a function to calculate ao5, mo3, ao12 for each item in timeList
         const updateData = () => {
             let newList = structuredClone(timeList)["Session 1"];
-            for (let i = 0; i < newList.length; i++) {
+            for (let i = 1; i <= newList.length; i++) {
                 let curTimes = newList.slice(0, i);
-                newList[i].ao5 = calcAvg(curTimes, "ao", 5);
-                newList[i].mo3 = calcAvg(curTimes, "mo", 3);
-                newList[i].ao12 = calcAvg(curTimes, "ao", 12);
+                newList[i-1].ao5 = calcAvg(curTimes, "ao", 5);
+                newList[i-1].mo3 = calcAvg(curTimes, "mo", 3);
+                newList[i-1].ao12 = calcAvg(curTimes, "ao", 12);
             }
             setData(newList);
         };
@@ -31,12 +31,16 @@ export default function Page() {
         updateData();
     }, [timeList]); // Pass timeList as a dependency to useEffect
 
+
     return (
         <div className={styles.statsPage}>
+            {data.length === 0 ? <h3>Do solves to see your statistics.</h3> :
+                <>
+                    <Table data={data} />
+                    <LineChart rawData={data} />
+                </>
+            }
             {/* Render Table component and LineChart component with updated data */}
-            <Table data={data} />
-            <LineChart rawData={data} />
-            {/* {JSON.stringify(data)} */}
         </div>
     );
 };
