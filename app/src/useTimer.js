@@ -3,10 +3,11 @@ import { useState, useEffect } from "react"
 import { randomScrambleForEvent } from "cubing/scramble";
 import { setDebug } from "cubing/search";
 import useLocalStorage from "./useLocalStorage";
+import applyPenalty from "./applyPenalty"
 import { v4 as uuidv4 } from 'uuid';
 // All the guts behind the timer!
 
-export default function useTimer(type, setPenalty, timeList, setTimeList) {
+export default function useTimer(type, setPenalty, timeList, setTimeList, penalty, session, setSession) {
     // You can specify any subset of debug options.
     setDebug({
         logPerf: false, // Disable console info like scramble generation durations.
@@ -19,11 +20,23 @@ export default function useTimer(type, setPenalty, timeList, setTimeList) {
     let spaceHeldTime = 0 // How long space already held
     let spaceHeldInterval; // Interval for spaceHeldTime
     let timerInterval; // Interval to keep track of time
-
-    let [timeStatus, setTimeStatus] = useState("idle")
-    let [time, setTime] = useState(0)
-    let [scramble, setScramble] = useState("Getting scramble. For 3x3+, this may take some time.")
-    let [session, setSession] = useLocalStorage("session", "Session 1", "Session 1")
+    let [timeStatus, setTimeStatus] = useLocalStorage("timeStatus", "idle")
+    let [time, setTime] = useLocalStorage("curTime", 0)
+    let scrambleLoadMsg = "Getting scramble. For 3x3+, this may take some time."
+    let [scramble, setScramble] = useLocalStorage("curScramble", scrambleLoadMsg, fetchScramble)
+    async function fetchScramble(dry = false) {
+        if (dry) {
+            await randomScrambleForEvent("444");
+        } else {
+            try {
+                setScramble(scrambleLoadMsg);
+                const scramble = await randomScrambleForEvent(type);
+                setScramble(scramble.toString());
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
 
     const awaitTimerStartDown = (e) => {
         if (e.key === " " && !spaceHeldInterval) {
@@ -66,7 +79,10 @@ export default function useTimer(type, setPenalty, timeList, setTimeList) {
             let parsedList = JSON.parse(JSON.stringify(timeList));
             parsedList[session].push({
                 time: prevTime,
-                uuid: UUID
+                uuid: UUID,
+                scramble: scramble === scrambleLoadMsg ? undefined : scramble,
+                penalty: penalty[0],
+                formattedTime: applyPenalty(prevTime, penalty[0])
             });
             setTimeList(parsedList);
             return prevTime;
@@ -82,19 +98,7 @@ export default function useTimer(type, setPenalty, timeList, setTimeList) {
         spaceHeldInterval = undefined;
     }
 
-    async function fetchScramble(dry = false) {
-        if (dry) {
-            await randomScrambleForEvent("444");
-        } else {
-            try {
-                setScramble("Getting scramble. For 3x3+, this may take some time.");
-                const scramble = await randomScrambleForEvent(type);
-                setScramble(scramble.toString());
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    }
+
 
     useEffect(() => {
         // fetchScramble(true);
@@ -124,9 +128,12 @@ export default function useTimer(type, setPenalty, timeList, setTimeList) {
         };
     }, [timeStatus]);
 
-    useEffect(() => {
-        fetchScramble()
-    }, [type])
+    let refresh = () => {
+        setTime(0);
+        fetchScramble();
+        setPenalty("OK");
+        setTimeStatus("idle");
+    }
 
-    return [timeStatus, time, scramble]
+    return [timeStatus, time, scramble, refresh]
 }

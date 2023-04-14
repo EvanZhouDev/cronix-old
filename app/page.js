@@ -156,12 +156,18 @@ export default function Page() {
     let [timeList, setTimeList] = useLocalStorage("timeList", {
         "Session 1": []
     })
+    let [session, setSession] = useLocalStorage("session", "Session 1", "Session 1")
 
-    let penalty = useState("OK")
-    let [timeStatus, time, scramble] = useTimer(eventMap[timerOptions.event], penalty[1], timeList, setTimeList);
+    let penalty = useLocalStorage("penalty","OK")
+    let [timeStatus, time, scramble, refresh] = useTimer(eventMap[timerOptions.event], penalty[1], timeList, setTimeList, penalty, session, setSession);
 
     let handleDelete = () => {
-        // Delete time here
+        setTimeList(oldList => {
+            let newList = structuredClone(oldList);
+            newList[session].pop();
+            refresh()
+            return newList
+        })
     }
 
     return (
@@ -172,7 +178,7 @@ export default function Page() {
             <div className={styles.vsection}>
                 {timeStatus !== "timing" ? <Scramble scramble={scramble} /> : null}
                 <Time time={time} penalty={penalty[0]} status={timeStatus} />
-                {timeStatus === "judging" ? <Status handleDelete={handleDelete} penalty={penalty} /> : null}
+                {timeStatus === "judging" ? <Status timeListStatus={[timeList, setTimeList]} handleDelete={handleDelete} penalty={penalty} session={session} /> : null}
             </div>
             <div className={styles.vsection}>
                 {timeStatus !== "timing" ? <Ministats timeListStatus={[timeList, setTimeList]} /> : null}

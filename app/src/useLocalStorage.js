@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from "react";
 
-export default function useLocalStorage(key, defaultValue) {
+export default function useLocalStorage(key, defaultValue, runIfNone = () => { }) {
     const isMounted = useRef(false);
     const [value, setValue] = useState(defaultValue);
 
@@ -10,6 +10,8 @@ export default function useLocalStorage(key, defaultValue) {
             const item = window.localStorage.getItem(key);
             if (item) {
                 setValue(JSON.parse(item));
+            } else {
+                runIfNone()
             }
         } catch (e) {
             console.log(e);
@@ -21,7 +23,6 @@ export default function useLocalStorage(key, defaultValue) {
 
     useEffect(() => {
         if (isMounted.current) {
-            console.log("updated to", value)
             window.localStorage.setItem(key, JSON.stringify(value));
         } else {
             isMounted.current = true;
