@@ -46,7 +46,7 @@ export default function SessionDropdown() {
         <input value={sessionName} onChange={handleSessionNameChange}></input>
         {
           Object.keys(sessionCtx.data).map(x => {
-            return (<div className={styles.dropdownOptions} onClick={() => { createSession(x) }}>{x}</div>)
+            return (<div key={x} className={styles.dropdownOptions} onClick={() => { createSession(x) }}>{x}</div>)
           })
         }
       </span>
