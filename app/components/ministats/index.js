@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./ministats.module.css";
 import calcAvg from "@/app/src/calculateAverage";
-export default function Ministats({ timeListStatus }) {
+export default function Ministats({ session, timeListStatus }) {
     const [timeList, _] = timeListStatus;
 
     const [avg, setAvg] = useState({
@@ -12,10 +12,10 @@ export default function Ministats({ timeListStatus }) {
 
     useEffect(() => {
         setAvg(original => {
-            let rem = { ...original };
-            rem.mo3 = calcAvg(timeList["Session 1"], "mo", 3);
-            rem.ao5 = calcAvg(timeList["Session 1"], "ao", 5);
-            rem.ao12 = calcAvg(timeList["Session 1"], "ao", 12);
+            let rem = structuredClone(original);
+            rem.mo3 = calcAvg(timeList, "mo", 3);
+            rem.ao5 = calcAvg(timeList, "ao", 5);
+            rem.ao12 = calcAvg(timeList, "ao", 12);
             return rem;
         });
     }, [timeList]);

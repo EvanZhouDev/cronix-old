@@ -6,3 +6,26 @@
 	justify-content: center;
 	align-items: center;
 }
+
+.sessionWrapper {
+    align-items: center;
+    width: min-content;
+}
+
+
+.sessionDropdown {
+    position: absolute;
+    background-color: var(--darker-bg-color);
+    border-radius: 10px;
+    padding: 10px;
+    margin-left: 5px;
+    display: none;
+}
+
+.sessionWrapper span {
+    width: 150px;
+}
+
+.sessionWrapper:hover > .sessionDropdown {
+    display: block;
+}

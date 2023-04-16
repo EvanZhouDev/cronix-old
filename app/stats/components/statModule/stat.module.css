@@ -1,0 +1,14 @@
+.stat {
+    width: 100vw;
+    display: flex;
+    justify-content: stretch;
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.stat > div {
+    flex: 1;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}

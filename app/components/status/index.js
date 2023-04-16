@@ -6,16 +6,14 @@ import applyPenalty from "@/app/src/applyPenalty"
 export default function Status({ penalty: [selected, setSelected], handleDelete, timeListStatus: [timeList, setTimeList], session }) {
     let options = ["OK", "+2", "DNF"]
     let modTimeList = (x) => {
-        setTimeList(prevTimeList => {
-            let newTimeList = structuredClone(prevTimeList)
-            newTimeList[session][newTimeList[session].length - 1].penalty = x;
-            newTimeList[session][newTimeList[session].length - 1].formattedTime = applyPenalty(newTimeList[session][newTimeList[session].length - 1].time, x)
-            let mathematicalTime = newTimeList[session][newTimeList[session].length - 1].time
-            if (x === "DNF") mathematicalTime = -1;
-            if (x === "+2") mathematicalTime = newTimeList[session][newTimeList[session].length - 1].time + 200
-            newTimeList[session][newTimeList[session].length - 1].mathematicalTime = mathematicalTime
-            return newTimeList;
-        })
+        let newTimeList = structuredClone(timeList)
+        newTimeList[newTimeList.length - 1].penalty = x;
+        newTimeList[newTimeList.length - 1].formattedTime = applyPenalty(newTimeList[newTimeList.length - 1].time, x)
+        let mathematicalTime = newTimeList[newTimeList.length - 1].time
+        if (x === "DNF") mathematicalTime = -1;
+        if (x === "+2") mathematicalTime = newTimeList[newTimeList.length - 1].time + 200
+        newTimeList[newTimeList.length - 1].mathematicalTime = mathematicalTime
+        setTimeList(timeList)
         setSelected(x)
     }
     return (

@@ -5,22 +5,22 @@ import Status from "./components/status"
 import Scramble from "./components/scramble"
 import Ministats from "./components/ministats"
 import Time from "./components/time"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import useTimer from "./src/useTimer.js";
 import { FiBox, FiWatch, FiMic, FiMoreVertical, FiEyeOff, FiPenTool, FiClock, FiStar } from "react-icons/fi";
 import useLocalStorage from "./src/useLocalStorage.js";
+import { SessionContext } from "./sessionProvider"
 export default function Page() {
-    const [timerOptions, setTimerOptions] = useLocalStorage(
-        'timerOptions',
-        {
-            event: "3x3",
-            input: "Timer"
-        },
-        {
-            event: null,
-            input: null
-        }
-    );
+    const [sessionCtx, setSession] = useContext(SessionContext);
+    console.log("AHHH", sessionCtx)
+    let session = sessionCtx.session
+    let options = sessionCtx.data[session].options;
+    const setOptions = (newOptions) => {
+        const updatedSessionCtx = structuredClone(sessionCtx);
+        updatedSessionCtx.data[session].options = newOptions;
+        setSession(updatedSessionCtx);
+    };
+    let penalty = useLocalStorage("penalty", "OK")
 
     let [settings, setSettings] = useState([{
         name: "event",
@@ -125,14 +125,14 @@ export default function Page() {
 
     useEffect(() => {
         setSettings(oldSettings => {
-            let cur = timerOptions;
+            let cur = options;
             let updatedSettings = [...oldSettings]; // Create a copy of the settings array
             if (cur.event !== "3x3" && cur.event !== oldSettings[0].types[1].name) {
                 updatedSettings[0].types[1] = oldSettings[0].types[2].submenu.find(item => item.name === cur.event);
             }
             return updatedSettings;
         })
-    }, [timerOptions])
+    }, [options])
 
     let eventMap = {
         "2x2": "222",
@@ -153,27 +153,28 @@ export default function Page() {
         "5x5 Blind": "555bf",
     }
 
-    let [timeList, setTimeList] = useLocalStorage("timeList", {
-        "Session 1": []
-    })
-    let [session, setSession] = useLocalStorage("session", "Session 1", "Session 1")
+    let timeList = sessionCtx.data[session].timeList
+    let setTimeList = (newTimeList) => {
+        const updatedSessionCtx = structuredClone(sessionCtx);
+        updatedSessionCtx.data[session].timeList = newTimeList;
+        setSession(updatedSessionCtx);
+    }
 
-    let penalty = useLocalStorage("penalty","OK")
-    let [timeStatus, time, scramble, refresh] = useTimer(eventMap[timerOptions.event], penalty[1], timeList, setTimeList, penalty, session, setSession);
+    // let [session, setSession] = useLocalStorage("session", "Session 1")
+
+    let [timeStatus, time, scramble, refresh] = useTimer(eventMap[options.event], penalty[1], timeList, setTimeList, penalty, session, sessionCtx, setSession);
 
     let handleDelete = () => {
-        setTimeList(oldList => {
-            let newList = structuredClone(oldList);
-            newList[session].pop();
-            refresh()
-            return newList
-        })
+        let newList = structuredClone(timeList);
+        newList.pop();
+        refresh()
+        setTimeList(newList)
     }
 
     return (
         <div className={styles.timerPage}>
             <div className={styles.vsection}>
-                {timeStatus !== "timing" ? <Bar settings={[settings, setSettings]} timerOptions={[timerOptions, setTimerOptions]} /> : null}
+                {timeStatus !== "timing" ? <Bar settings={[settings, setSettings]} timerOptions={[options, setOptions]} refresh={refresh} /> : null}
             </div>
             <div className={styles.vsection}>
                 {timeStatus !== "timing" ? <Scramble scramble={scramble} /> : null}
@@ -181,7 +182,7 @@ export default function Page() {
                 {timeStatus === "judging" ? <Status timeListStatus={[timeList, setTimeList]} handleDelete={handleDelete} penalty={penalty} session={session} /> : null}
             </div>
             <div className={styles.vsection}>
-                {timeStatus !== "timing" ? <Ministats timeListStatus={[timeList, setTimeList]} /> : null}
+                {timeStatus !== "timing" ? <Ministats session={session} timeListStatus={[timeList, setTimeList]} /> : null}
             </div>
         </div>
     )

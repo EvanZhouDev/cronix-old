@@ -1,6 +1,7 @@
 import Option from "../option.js"
 import Logo from "./logo.js"
 import Marginal from "../index.js"
+import SessionDropdown from "./sessionDropdown.js"
 import { FiClock, FiHelpCircle, FiBarChart2, FiInfo } from "react-icons/fi";
 export default function Titlebar() {
     return (
@@ -10,6 +11,7 @@ export default function Titlebar() {
             <Option icon=<FiBarChart2 size={20} /> name="Statistics" href="/stats"/>
             <Option icon=<FiHelpCircle size={20} /> name="Help" href="/help"/>
             <Option icon=<FiInfo size={20} /> name="About" href="/about" />
+            <SessionDropdown/>
         </Marginal>
     )
 }

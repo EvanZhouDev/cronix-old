@@ -4,7 +4,7 @@ import styles from "./table.module.css"
 import { FiTrash } from "react-icons/fi"
 import applyPenalty from "@/app/src/applyPenalty";
 import useLocalStorage from "@/app/src/useLocalStorage";
-export default function Table({ data, timeList, set }) {
+export default function Table({ data, timeList, set, session }) {
     const columns = React.useMemo(
         () => [
             {
@@ -39,31 +39,31 @@ export default function Table({ data, timeList, set }) {
         []
     )
 
-    let session = "Session 1"
     let doPenalty = (i, penalty) => {
-        set(prevTimeList => {
-            let newTimeList = structuredClone(prevTimeList)
-            newTimeList[session][i].penalty = penalty;
-            newTimeList[session][i].formattedTime = applyPenalty(newTimeList[session][i].time, penalty)
-            let mathematicalTime = newTimeList[session][i].time
-            if (penalty === "DNF") mathematicalTime = -1;
-            if (penalty === "+2") mathematicalTime = newTimeList[session][i].time + 200
-            newTimeList[session][i].mathematicalTime = mathematicalTime
-            return newTimeList;
-        })
+        const printObjectWithCircularRefs = (obj) => JSON.stringify(obj, function(key, value) { return value && typeof value === 'object' ? (key === '__circular_ref__' ? '[Circular]' : (this.__circular_ref__ = true, value)) : value; });
+        printObjectWithCircularRefs(timeList)
+        let newTimeList = structuredClone(timeList)
+
+        newTimeList[i].penalty = penalty;
+        newTimeList[i].formattedTime = applyPenalty(newTimeList[i].time, penalty)
+        let mathematicalTime = newTimeList[i].time
+        if (penalty === "DNF") mathematicalTime = -1;
+        if (penalty === "+2") mathematicalTime = newTimeList[i].time + 200
+        newTimeList[i].mathematicalTime = mathematicalTime
+        set(newTimeList)
     }
 
     let [_timeStatus, setTimeStatus] = useLocalStorage("timeStatus", "idle")
     let [_time, setTime] = useLocalStorage("curTime", 0)
     let [_penalty, setPenalty] = useLocalStorage("penalty", "OK")
     const tableInstance = useTable({
-        columns, data: data.map((x, i) => {
+        columns, data: structuredClone(data).map((x, i) => {
             x.index = i + 1;
-            x.operations = <span class={styles.opWrap}>
-                <span class={[styles.trash].join(" ")} onClick={() => {
+            x.operations = <span className={styles.opWrap}>
+                <span className={[styles.trash].join(" ")} onClick={() => {
                     set(original => {
                         let newList = structuredClone(original);
-                        newList["Session 1"].splice(i, 1)
+                        newList[session].splice(i, 1)
                         return newList;
                     })
                     if (i === 0) {
@@ -74,17 +74,17 @@ export default function Table({ data, timeList, set }) {
                 }}>
                     <FiTrash />
                 </span>
-                <span class={[styles.selection, timeList[session][i] && timeList[session][i].penalty === "OK" ? styles.selected : null].join(" ")} onClick={() => {
+                <span className={[styles.selection, timeList[i] && timeList[i].penalty === "OK" ? styles.selected : null].join(" ")} onClick={() => {
                     doPenalty(i, "OK")
                 }}>
                     OK
                 </span>
-                <span class={[styles.selection, timeList[session][i] && timeList[session][i].penalty === "+2" ? styles.selected : null].join(" ")} onClick={() => {
+                <span className={[styles.selection, timeList[i] && timeList[i].penalty === "+2" ? styles.selected : null].join(" ")} onClick={() => {
                     doPenalty(i, "+2")
                 }}>
                     +2
                 </span>
-                <span class={[styles.selection, timeList[session][i] && timeList[session][i].penalty === "DNF" ? styles.selected : null].join(" ")} onClick={() => {
+                <span className={[styles.selection, timeList[i] && timeList[i].penalty === "DNF" ? styles.selected : null].join(" ")} onClick={() => {
                     doPenalty(i, "DNF")
                 }}>
                     DNF
